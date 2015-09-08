@@ -1,0 +1,23 @@
+---
+# tasks file for teamspeak
+
+- include: dependencies.yml
+
+- name: Installing required packages
+  apt: name="{{item}}" state=latest update_cache=yes
+  with_items:
+    - sqlite3
+    - libsqlite3-dev
+    - curl
+    - wget
+    - nano
+
+- name: Downloading teamspeak3-server_linux-amd64-3.0.11.4.tar.gz
+  get_url: url=http://dl.4players.de/ts/releases/3.0.11.4/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz
+           dest=/tmp/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz
+
+- name: Extracting /root/gitblit.tar.gz
+  unarchive: src=/tmp/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz dest=/opt/teamspeak copy=no
+
+- name: Remove teamspeak3-server_linux-amd64-3.0.11.3.tar.gz
+  file: path=/tmp/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz dest=/opt/teamspeak state=absent

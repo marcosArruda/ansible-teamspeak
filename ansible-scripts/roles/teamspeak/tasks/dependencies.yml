@@ -1,0 +1,11 @@
+---
+# tasks file for teamspeak
+
+- name: Installing required packages
+  apt: name="{{item}}" state=latest update_cache=yes
+  with_items:
+    - sqlite3
+    - libsqlite3-dev
+    - curl
+    - wget
+    - nano

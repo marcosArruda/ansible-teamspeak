@@ -1,0 +1,6 @@
+---
+# tasks file for teamspeak
+
+- include: dependencies.yml
+- include: install.yml
+- include: configure.yml
