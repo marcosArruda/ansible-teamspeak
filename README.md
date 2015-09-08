@@ -40,9 +40,5 @@ name.
 You can find the server admin token in /mnt/teamspeak/logs/, search the log
 files for ServerAdmin privilege key created and use that token on first connect.
 
-
-## Mumble Server Alternative
-
-
 [0]: http://www.docker.io/gettingstarted/
 [1]: http://teamspeak.com/
