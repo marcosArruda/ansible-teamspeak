@@ -1,0 +1,42 @@
+---
+# tasks file for teamspeak
+
+- name: Downloading teamspeak3-server_linux-amd64-3.0.11.4.tar.gz
+  get_url: url="http://dl.4players.de/ts/releases/3.0.11.4/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz"
+           dest="/tmp/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz"
+
+- name: Creating 'teamspeak' user
+  user: name=teamspeak
+        shell=/bin/bash
+        uid=1009
+        createhome=yes
+        home=/opt/teamspeak
+        state=present
+
+- name: Extracting /tmp/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz
+  sudo: yes
+  unarchive: src="/tmp/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz"
+             dest="/opt/teamspeak"
+             copy=no
+             mode=0755
+             owner=teamspeak
+             group=teamspeak
+
+- name: Giving ownership of /opt/teamspeak to the Nexus's user
+  file: path=/opt/teamspeak state=directory owner=teamspeak group=teamspeak recurse=yes
+
+
+- name: Removing teamspeak3-server_linux-amd64-3.0.11.4.tar.gz
+  file: path="/tmp/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz" state=absent
+
+- name: Creating LD_LIBRARY_PATH=/opt/teamspeak env var
+  sudo: yes
+  copy: src=globalvars.sh dest=/etc/profile.d/ mode=0755 owner=root group=root
+
+- name: Creating init script for teamspeak3
+  sudo: yes
+  copy: src=teamspeak3.sh dest=/etc/init.d/teamspeak3 mode=0755 owner=root group=root
+
+- name: Making teamspeak 3 run as a service
+  sudo: yes
+  shell: update-rc.d teamspeak3 defaults
