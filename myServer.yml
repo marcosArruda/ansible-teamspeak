@@ -1,0 +1,40 @@
+---
+- host: marcosarruda.info
+  apps:
+    - Jenkins
+    - Teamspeak
+    - Gitblit (Seguro)
+    - Gerrit (Talvez?)
+    - { name: "Tomcat/Jboss", description: "for my java projects"
+    - Selenium
+    - Sonar
+    - Nexus
+    - OpenVPN
+    - https://www.digitalocean.com/community/tutorials/additional-recommended-steps-for-new-ubuntu-14-04-servers
+  packages:
+    - maven:
+      - 3.2.5
+      - 3.3.X
+      - setmaven.sh $VERSION "Shell for change simplicity"
+    - git
+    - curl
+    - ansible
+    - Selenium:
+      role: "arknoll.selenium"
+      description: "Set up selenium and Firefox for running selenium tests."
+    - flywaydb
+  monitoring:
+    Options:
+      - Zabbix-Server
+      - Logwatch
+      - Kibana + LogStash + ElasticSearch
+      - GrayLog
+
+  java_versions:
+    - 8
+    - 7
+    - 6
+    - setjava.sh $VERSION "Shell for change simplicity"
+  web:
+    - Apache2
+    - SSL (um baratinho)
